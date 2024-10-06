@@ -12,4 +12,4 @@ public class DeleteCommand extends Command {
         list.deleteEntry(index - 1);  // Index correction as list is 0-based
         System.out.println("Entry deleted.");
     }
-}the
+}
