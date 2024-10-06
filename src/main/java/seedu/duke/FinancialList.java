@@ -13,4 +13,12 @@ public class FinancialList {
         entries.add(entry);
     }
 
+    public void deleteEntry(int index) {
+        if (index >= 0 && index < entries.size()) {
+            entries.remove(index);
+        } else {
+            System.out.println("OOPS!!! The entry does not exist.");
+        }
+    }
+
 }
