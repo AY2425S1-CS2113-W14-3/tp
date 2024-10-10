@@ -23,6 +23,6 @@ public class Expense extends FinancialEntry {
      */
     @Override
     public String toString() {
-        return "[Expense] - " + description + " $ " + amount;
+        return "[Expense] - " + description + " $ " + String.format("%.2f", amount);
     }
 }
