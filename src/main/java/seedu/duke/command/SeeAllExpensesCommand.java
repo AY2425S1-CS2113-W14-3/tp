@@ -4,13 +4,16 @@ import seedu.duke.financial.FinancialEntry;
 import seedu.duke.financial.FinancialList;
 import seedu.duke.financial.Expense;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * The SeeAllExpensesCommand class is responsible for displaying all recorded expenses
  * from the provided FinancialList. It extends the Command class and overrides the 
  * execute method to perform this functionality.
  */
 public class SeeAllExpensesCommand extends Command{
-
+    private static final Logger logger = Logger.getLogger(SeeAllExpensesCommand.class.getName());
     public SeeAllExpensesCommand() {}
 
     /**
@@ -23,6 +26,11 @@ public class SeeAllExpensesCommand extends Command{
      */
     @Override
     public void execute(FinancialList list) {
+        if (list == null) {
+            logger.log(Level.SEVERE, "Financial list is null");
+            assert list != null : "Financial list cannot be null";
+            throw new IllegalArgumentException("Financial list cannot be null");
+        }
         String expenseList = "";
         int expenseCount = 0;
         for (int i = 0; i < list.getEntryCount(); i++) {
