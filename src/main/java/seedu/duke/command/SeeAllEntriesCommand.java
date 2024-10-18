@@ -12,6 +12,8 @@ public class SeeAllEntriesCommand extends Command {
 
     @Override
     public void execute(FinancialList list) {
+        assert list != null : "Financial list cannot be null";
+
         System.out.println("--------------------------------------------");
         if (list.getEntryCount() == 0) {
             System.out.println("No entries found.");
