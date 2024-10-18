@@ -81,6 +81,9 @@ public class AppUi {
     public void editEntry(HashMap<String, String> commandArguments) {
         int index = Integer.parseInt(commandArguments.get("argument"));
 
+        assert index > 0 : "Index of entry to edit must be greater than 0";
+        assert index <= financialList.getEntryCount() : "Index of entry to edit must be within the list size";
+
         FinancialEntry entry = financialList.getEntry(index - 1);
 
         String amountStr = commandArguments.get("/a");
