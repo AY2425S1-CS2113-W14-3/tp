@@ -4,11 +4,13 @@ import seedu.duke.financial.FinancialEntry;
 import seedu.duke.financial.FinancialList;
 import seedu.duke.financial.Income;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * Command to print all incomes recorded in the financial list.
  */
 public class SeeAllIncomesCommand extends Command {
-
     public SeeAllIncomesCommand() {}
 
     /**
@@ -21,6 +23,8 @@ public class SeeAllIncomesCommand extends Command {
      */
     @Override
     public void execute(FinancialList list) {
+        assert list != null : "Financial list cannot be null";
+
         String incomeList = "";
         int incomeCount = 0;
         for (int i = 0; i < list.getEntryCount(); i++) {
