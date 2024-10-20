@@ -9,6 +9,7 @@ import seedu.duke.command.SeeAllExpensesCommand;
 import seedu.duke.command.SeeAllIncomesCommand;
 import seedu.duke.command.HelpCommand;
 import seedu.duke.command.ExitCommand;
+import seedu.duke.exception.FinanceBuddyException;
 import seedu.duke.financial.FinancialEntry;
 import seedu.duke.financial.FinancialList;
 import seedu.duke.parser.InputParser;
@@ -39,14 +40,19 @@ public class AppUi {
      * An {@link AddExpenseCommand} is created and executed to add the expense to the financial list.
      *
      * @param commandArguments A map of parsed command arguments that contains the description of the expense
-     *                         and the amount ("/a").
+     *                         and the amount ("/a") and the date/time ("/dt")
      */
     public void addExpense(HashMap<String, String> commandArguments) {
         String description = commandArguments.get("argument");
         double amount = Double.parseDouble(commandArguments.get("/a"));
+        String date = commandArguments.get("/dt");
 
-        AddExpenseCommand addExpenseCommand = new AddExpenseCommand(amount, description);
-        addExpenseCommand.execute(financialList);
+        try {
+            AddIncomeCommand addIncomeCommand = new AddIncomeCommand(amount, description, date);
+            addIncomeCommand.execute(financialList);
+        } catch (FinanceBuddyException e) {
+            System.out.println(e.getMessage());  // Display error message when invalid date is provided
+        }
     }
 
     /**
@@ -61,9 +67,14 @@ public class AppUi {
     public void addIncome(HashMap<String, String> commandArguments) {
         String description = commandArguments.get("argument");
         double amount = Double.parseDouble(commandArguments.get("/a"));
+        String date = commandArguments.get("/dt");
 
-        AddIncomeCommand addIncomeCommand = new AddIncomeCommand(amount, description);
-        addIncomeCommand.execute(financialList);
+        try {
+            AddExpenseCommand addExpenseCommand = new AddExpenseCommand(amount, description, date);
+            addExpenseCommand.execute(financialList);
+        } catch (FinanceBuddyException e) {
+            System.out.println(e.getMessage());  // Display error message when invalid date is provided
+        }
 
     }
 

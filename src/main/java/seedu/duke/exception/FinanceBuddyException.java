@@ -1,7 +1,7 @@
 package seedu.duke.exception;
 
 /**
- * Exception thrown for errors related to financial operations (e.g., invalid date/time format).
+ * Exception thrown for errors related to financial operations
  */
 public class FinanceBuddyException extends Exception {
 

@@ -1,5 +1,8 @@
 package seedu.duke.financial;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 /**
  * Represents an expense transaction.
  * An expense reduces the available balance.
@@ -12,17 +15,18 @@ public class Expense extends FinancialEntry {
      * @param amount The amount of the expense.
      * @param description A description of the expense.
      */
-    public Expense(double amount, String description) {
-        super(amount, description, "Expense");
+    public Expense(double amount, String description, LocalDate date) {
+        super(amount, description, "Expense", date);
     }
 
     /**
-     * Returns a string representation of the expense.
+     * Returns a string representation of the expense including the date.
      *
-     * @return A string in the format "[Expense] $amount - description".
+     * @return A string in the format "[Expense] $amount - description (on date)".
      */
     @Override
     public String toString() {
-        return "[Expense] - " + description + " $ " + String.format("%.2f", amount);
+        DateTimeFormatter pattern = DateTimeFormatter.ofPattern("dd/MM/yy");
+        return String.format("[Expense] - %s $ %.2f (on %s)", description, amount, date.format(pattern));
     }
 }
