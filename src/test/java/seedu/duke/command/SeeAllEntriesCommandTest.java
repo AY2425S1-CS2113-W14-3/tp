@@ -13,26 +13,26 @@ import java.io.PrintStream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Test class for the SeeAllIncomesCommand.
- * This class contains unit tests to verify the functionality of the SeeAllIncomesCommand
+ * Test class for the SeeAllEntriesCommand.
+ * This class contains unit tests to verify the functionality of the SeeAllEntriesCommand
  * when executed on a FinancialList containing various financial entries.
  */
-class SeeAllIncomesCommandTest {
+class SeeAllEntriesCommandTest {
 
     private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
     private FinancialList financialList;
-    private SeeAllIncomesCommand testCommand;
+    private SeeAllEntriesCommand testCommand;
 
     /**
      * Set up the test environment before each test.
-     * Initializes the FinancialList and SeeAllIncomesCommand instances,
+     * Initializes the FinancialList and SeeAllEntriesCommand instances,
      * and redirects System.out to capture console output.
      */
     @BeforeEach
     void setUp() {
         financialList = new FinancialList();
-        testCommand = new SeeAllIncomesCommand();
+        testCommand = new SeeAllEntriesCommand();
         System.setOut(new PrintStream(outputStream));
     }
 
@@ -47,11 +47,10 @@ class SeeAllIncomesCommandTest {
 
     /**
      * Test the execute method with a mixed list of incomes and expenses.
-     * Expects only income entries to be printed with index relative to
-     * income entries only.
+     * Expects all entries to be printed with indexes.
      */
     @Test
-    void execute_mixedList_expectPrintedIncomes() {
+    void execute_mixedList_expectPrintedList() {
 
         financialList.addEntry(new Expense(3.50, "lunch"));
         financialList.addEntry(new Income(3000.00, "salary"));
@@ -63,32 +62,34 @@ class SeeAllIncomesCommandTest {
         testCommand.execute(financialList);
 
         String output = outputStream.toString();
-        String expectedOutput = "Here's a list of all recorded incomes:" + System.lineSeparator() +
-                "1. [Income] - salary $ 3000.00" + System.lineSeparator() +
-                "2. [Income] - allowance $ 100.00" + System.lineSeparator() +
-                "3. [Income] - ang pow money $ 15.00" + System.lineSeparator() +
+        String expectedOutput = "--------------------------------------------" + System.lineSeparator() +
+                "Here's a list of all recorded entries:" + System.lineSeparator() +
+                "1. [Expense] - lunch $ 3.50" + System.lineSeparator() +
+                "2. [Income] - salary $ 3000.00" + System.lineSeparator() +
+                "3. [Expense] - dinner $ 4.50" + System.lineSeparator() +
+                "4. [Expense] - movie ticket $ 20.00" + System.lineSeparator() +
+                "5. [Income] - allowance $ 100.00" + System.lineSeparator() +
+                "6. [Income] - ang pow money $ 15.00" + System.lineSeparator() +
                 "--------------------------------------------" + System.lineSeparator();
 
         assertEquals(expectedOutput, output);
     }
 
     /**
-     * Test the execute method with a list containing only expenses.
-     * Expects a message indicating no incomes were found.
+     * Test the execute method with an empty list.
+     * Expects a message indicating no entries were found.
      */
     @Test
-    void execute_onlyExpenseList_expectNothing() {
-
-        financialList.addEntry(new Expense(3.50, "lunch"));
-        financialList.addEntry(new Expense(4.50, "dinner"));
-        financialList.addEntry(new Expense(20.00, "movie ticket"));
+    void execute_emptyList_expectNothing() {
 
         testCommand.execute(financialList);
 
         String output = outputStream.toString();
-        String expectedOutput = "No recorded incomes found." + System.lineSeparator() +
-            "--------------------------------------------" + System.lineSeparator();
+        String expectedOutput = "--------------------------------------------" + System.lineSeparator() +
+                "No entries found." + System.lineSeparator() +
+                "--------------------------------------------" + System.lineSeparator();
 
         assertEquals(expectedOutput, output);
     }
 }
+

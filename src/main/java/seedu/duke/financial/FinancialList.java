@@ -50,7 +50,7 @@ public class FinancialList {
      * @return The financial entry at the specified index.
      */
     public FinancialEntry getEntry(int index) {
-        if (index >= 0 && index < entries.size()) {
+        if (index >= 0 && index <= entries.size()) {
             return entries.get(index);
         } else {
             System.out.println("OOPS!!! The entry does not exist.");
@@ -68,12 +68,8 @@ public class FinancialList {
      * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= entries.size()).
      */
     public void editEntry(int index, double amount, String description) {
-        if (index >= 0 && index < entries.size()) {
-            FinancialEntry entry = entries.get(index);
-            entry.setAmount(amount);
-            entry.setDescription(description);
-        } else {
-            System.out.println("OOPS!!! The entry does not exist.");
-        }
+        FinancialEntry entry = entries.get(index);
+        entry.setAmount(amount);
+        entry.setDescription(description);
     }
 }

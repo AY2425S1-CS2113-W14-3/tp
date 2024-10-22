@@ -51,13 +51,14 @@ class AddExpenseCommandTest {
         addExpenseCommand.execute(financialList);
 
         String output = outputStream.toString();
-        String expectedOutput = "Got it. I've added this expense:" + System.lineSeparator() +
-                "[Expense] - groceries $ 50.00" + System.lineSeparator();
+        String expectedOutput = "--------------------------------------------" + System.lineSeparator() +
+                "Got it! I've added this expense:" + System.lineSeparator() +
+                "[Expense] - groceries $ 50.00" + System.lineSeparator() +
+                "--------------------------------------------" + System.lineSeparator();
 
         assertEquals(1, financialList.getEntryCount());  // Verify the entry count
         assertEquals(expectedOutput, output);  // Verify the printed output
     }
-
 
     /**
      * Test adding multiple expenses to the financial list.
@@ -72,10 +73,14 @@ class AddExpenseCommandTest {
         addExpenseCommand.execute(financialList);
 
         String output = outputStream.toString();
-        String expectedOutput = "Got it. I've added this expense:" + System.lineSeparator() +
+        String expectedOutput = "--------------------------------------------" + System.lineSeparator() +
+                "Got it! I've added this expense:" + System.lineSeparator() +
                 "[Expense] - lunch $ 30.00" + System.lineSeparator() +
-                "Got it. I've added this expense:" + System.lineSeparator() +
-                "[Expense] - electronics $ 100.00" + System.lineSeparator();
+                "--------------------------------------------" + System.lineSeparator() +
+                "--------------------------------------------" + System.lineSeparator() +
+                "Got it! I've added this expense:" + System.lineSeparator() +
+                "[Expense] - electronics $ 100.00" + System.lineSeparator() +
+                "--------------------------------------------" + System.lineSeparator();
 
         assertEquals(2, financialList.getEntryCount());  // Verify the entry count
         assertEquals(expectedOutput, output);  // Verify the printed output for both

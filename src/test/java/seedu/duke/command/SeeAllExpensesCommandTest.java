@@ -49,7 +49,8 @@ public class SeeAllExpensesCommandTest {
     @Test
     public void execute_noExpenses_printsNoRecordedExpenses() {
         seeAllExpensesCommand.execute(financialList);
-        assertEquals("No recorded expenses found." + System.lineSeparator(), outContent.toString());
+        assertEquals("No recorded expenses found." + System.lineSeparator() +
+            "--------------------------------------------" + System.lineSeparator(), outContent.toString());
     }
 
     /**
@@ -71,7 +72,8 @@ public class SeeAllExpensesCommandTest {
 
         String expectedOutput = "Here's a list of all recorded expenses:" + System.lineSeparator() +
                 "1. " + expense1 + System.lineSeparator() +
-                "2. " + expense2 + System.lineSeparator();
+                "2. " + expense2 + System.lineSeparator() +
+                "--------------------------------------------" + System.lineSeparator();
         assertEquals(expectedOutput, outContent.toString());
     }
 }

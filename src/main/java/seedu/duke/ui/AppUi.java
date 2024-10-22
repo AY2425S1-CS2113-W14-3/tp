@@ -5,6 +5,11 @@ import seedu.duke.command.AddIncomeCommand;
 import seedu.duke.command.DeleteCommand;
 import seedu.duke.command.EditEntryCommand;
 import seedu.duke.command.SeeAllEntriesCommand;
+import seedu.duke.command.SeeAllExpensesCommand;
+import seedu.duke.command.SeeAllIncomesCommand;
+import seedu.duke.command.HelpCommand;
+import seedu.duke.command.ExitCommand;
+import seedu.duke.exception.FinanceBuddyException;
 import seedu.duke.financial.FinancialEntry;
 import seedu.duke.financial.FinancialList;
 import seedu.duke.parser.InputParser;
@@ -35,14 +40,20 @@ public class AppUi {
      * An {@link AddExpenseCommand} is created and executed to add the expense to the financial list.
      *
      * @param commandArguments A map of parsed command arguments that contains the description of the expense
-     *                         and the amount ("/a").
+     *                         and the amount ("/a") and the date/time ("/dt")
      */
     public void addExpense(HashMap<String, String> commandArguments) {
         String description = commandArguments.get("argument");
         double amount = Double.parseDouble(commandArguments.get("/a"));
+        String date = commandArguments.get("/dt");
 
-        AddExpenseCommand addExpenseCommand = new AddExpenseCommand(amount, description);
-        addExpenseCommand.execute(financialList);
+        try {
+            AddExpenseCommand addExpenseCommand = new AddExpenseCommand(amount, description, date);
+            addExpenseCommand.execute(financialList);
+        } catch (FinanceBuddyException e) {
+            System.out.println(e.getMessage());  // Display error message when invalid date is provided
+        }
+
     }
 
     /**
@@ -57,9 +68,14 @@ public class AppUi {
     public void addIncome(HashMap<String, String> commandArguments) {
         String description = commandArguments.get("argument");
         double amount = Double.parseDouble(commandArguments.get("/a"));
+        String date = commandArguments.get("/dt");
 
-        AddIncomeCommand addIncomeCommand = new AddIncomeCommand(amount, description);
-        addIncomeCommand.execute(financialList);
+        try {
+            AddIncomeCommand addIncomeCommand = new AddIncomeCommand(amount, description, date);
+            addIncomeCommand.execute(financialList);
+        } catch (FinanceBuddyException e) {
+            System.out.println(e.getMessage());  // Display error message when invalid date is provided
+        }
 
     }
 
@@ -77,7 +93,10 @@ public class AppUi {
     public void editEntry(HashMap<String, String> commandArguments) {
         int index = Integer.parseInt(commandArguments.get("argument"));
 
-        FinancialEntry entry = financialList.getEntry(index);
+        assert index > 0 : "Index of entry to edit must be greater than 0";
+        assert index <= financialList.getEntryCount() : "Index of entry to edit must be within the list size";
+
+        FinancialEntry entry = financialList.getEntry(index - 1);
 
         String amountStr = commandArguments.get("/a");
         double amount = (amountStr != null) ? Double.parseDouble(amountStr) : entry.getAmount();
@@ -105,6 +124,45 @@ public class AppUi {
     }
 
     /**
+     * This method helps execute the appropriate command based on the "argument"
+     * provided in the commandArguments HashMap. If the argument is "expense", it will
+     * execute the SeeAllExpensesCommand. If the argument is "income", it will execute
+     * the SeeAllIncomesCommand. If no argument or an unknown argument is provided,
+     * it defaults to executing SeeAllEntriesCommand to list all entries.
+     *
+     * @param commandArguments A HashMap containing the command argument with the key "argument".
+     *                         The value can be "expense", "income", or null/empty for listing all entries.
+     */
+    public void listHelper(HashMap<String, String> commandArguments) {
+        String type = commandArguments.get("argument");
+
+        if (type != null) {
+            if (type.equals("expense")) {
+                SeeAllExpensesCommand seeAllExpensesCommand = new SeeAllExpensesCommand();
+                seeAllExpensesCommand.execute(financialList);
+            } else if (type.equals("income")) {
+                SeeAllIncomesCommand seeAllIncomesCommand = new SeeAllIncomesCommand();
+                seeAllIncomesCommand.execute(financialList);
+            } else {
+                System.out.println("Unknown argument: " + type);
+                System.out.println("--------------------------------------------");
+            }
+        } else {
+            SeeAllEntriesCommand seeAllEntriesCommand = new SeeAllEntriesCommand();
+            seeAllEntriesCommand.execute(financialList);
+        }
+    } 
+    
+    /**
+     * Prints help menu when user inputs 'help' command.
+     */
+    public void printHelpMenu() {
+        HelpCommand helpCommand = new HelpCommand();
+        helpCommand.execute(financialList);
+    }
+
+
+    /**
      * Matches a given command with its corresponding action.
      *
      * @param command          The command input by the user.
@@ -112,38 +170,15 @@ public class AppUi {
      * @return A boolean indicating whether the command was successful.
      */
     public boolean matchCommand(String command, HashMap<String, String> commandArguments) {
-        final String goodByeMessage = "--------------------------------------------\n" +
-                "Goodbye! Hope to see you again soon :)\n" +
-                "--------------------------------------------\n";
 
         final String unrecognizedCommand = "--------------------------------------------\n" +
                 "Unrecognized command!\n" +
                 "Use the command \"help\" for a list of valid commands\n" +
                 "--------------------------------------------\n";
 
-        final String helpMenu = "--------------------------------------------\n" +
-                "List of commands:\n" +
-                "--------------------------------------------\n" +
-                "1. list\n " +
-                "   - Shows a list of all logged transactions\n" +
-                "2. expense DESCRIPTION /a AMOUNT [/d DATE]\n " +
-                "   - Adds a new expense\n" +
-                "3. income DESCRIPTION /a AMOUNT [/d DATE]\n " +
-                "   - Adds a new income\n" +
-                "4. edit INDEX [/des DESCRIPTION] [/a AMOUNT] [/d DATE]\n " +
-                "   - Edits the transaction at the specified INDEX\n" +
-                "5. delete INDEX\n " +
-                "   - Deletes the transaction at the specified INDEX\n" +
-                "6. exit\n " +
-                "   - Exits the program\n" +
-                "7. help\n " +
-                "   - Shows a list of all valid commands\n" +
-                "--------------------------------------------\n";
-
         switch (command) {
         case "list":
-            SeeAllEntriesCommand seeAllEntriesCommand = new SeeAllEntriesCommand();
-            seeAllEntriesCommand.execute(financialList);
+            listHelper(commandArguments);
             break;
 
         case "expense":
@@ -163,12 +198,13 @@ public class AppUi {
             break;
 
         case "help":
-            System.out.println(helpMenu);
+            printHelpMenu();
             break;
 
         case "exit":
-            System.out.println(goodByeMessage);
-            return false;
+            ExitCommand exitCommand = new ExitCommand();
+            exitCommand.execute(financialList);
+            return exitCommand.shouldContinueLoop();
 
         default:
             System.out.println(unrecognizedCommand);

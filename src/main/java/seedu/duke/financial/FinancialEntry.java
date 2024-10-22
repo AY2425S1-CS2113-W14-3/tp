@@ -1,5 +1,7 @@
 package seedu.duke.financial;
 
+import java.time.LocalDate;
+
 /**
  * Abstract base class for all financial transactions (Income and Expense).
  */
@@ -7,6 +9,7 @@ public abstract class FinancialEntry {
     protected String description;
     protected double amount;
     protected String type;
+    protected LocalDate date;
 
     /**
      * Constructs a FinancialEntry with the specified amount, description, and type.
@@ -15,10 +18,11 @@ public abstract class FinancialEntry {
      * @param description A description of the transaction.
      * @param type The type of the transaction ("Income" or "Expense").
      */
-    public FinancialEntry(double amount, String description, String type){
+    public FinancialEntry(double amount, String description, String type, LocalDate date){
         this.description = description;
         this.amount = amount;
         this.type = type;
+        this.date = date;
     }
     
     /**
