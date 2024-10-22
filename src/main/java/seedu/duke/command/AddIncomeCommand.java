@@ -2,9 +2,12 @@ package seedu.duke.command;
 
 import seedu.duke.financial.FinancialList;
 import seedu.duke.financial.Income;
+import seedu.duke.exception.FinanceBuddyException;
+import seedu.duke.parser.DateParser;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.time.LocalDate;
 
 /**
  * Command to add an expense to the financial list.
@@ -14,6 +17,7 @@ public class AddIncomeCommand extends Command {
     private static Logger logger = Logger.getLogger("Income");
     private double amount;
     private String description;
+    private LocalDate date;
 
     /**
      * Constructs an AddIncomeCommand with the specified amount and description.
@@ -21,9 +25,10 @@ public class AddIncomeCommand extends Command {
      * @param amount The amount of the income.
      * @param description The description of the income.
      */
-    public AddIncomeCommand(double amount, String description) {
+    public AddIncomeCommand(double amount, String description, String date) throws FinanceBuddyException{
         this.amount = amount;
         this.description = description;
+        this.date = DateParser.parse(date);
     }
 
     /**
@@ -35,7 +40,7 @@ public class AddIncomeCommand extends Command {
      */
     @Override
     public void execute(FinancialList list) {
-        Income income = new Income(amount, description);
+        Income income = new Income(amount, description, date);
         int preEntryCount = list.getEntryCount();
         list.addEntry(income);
         assert list.getEntryCount() == preEntryCount + 1 : "Income not added";

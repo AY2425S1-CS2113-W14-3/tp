@@ -26,7 +26,8 @@ public class DeleteCommand extends Command {
      */
     @Override
     public void execute(FinancialList list) {
-        if (index >= 0 && index <= list.getEntryCount()) {
+        if (index > 0 && index <= list.getEntryCount()) {
+            assert index > 0 && index <= list.getEntryCount();
             FinancialEntry entry = list.getEntry(index - 1);
             list.deleteEntry(index - 1);  // Index correction as list is 0-based
             System.out.println("--------------------------------------------");
