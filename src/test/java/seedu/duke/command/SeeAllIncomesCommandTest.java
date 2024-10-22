@@ -66,7 +66,8 @@ class SeeAllIncomesCommandTest {
         String expectedOutput = "Here's a list of all recorded incomes:" + System.lineSeparator() +
                 "1. [Income] - salary $ 3000.00" + System.lineSeparator() +
                 "2. [Income] - allowance $ 100.00" + System.lineSeparator() +
-                "3. [Income] - ang pow money $ 15.00" + System.lineSeparator() ;
+                "3. [Income] - ang pow money $ 15.00" + System.lineSeparator() +
+                "--------------------------------------------" + System.lineSeparator();
 
         assertEquals(expectedOutput, output);
     }
@@ -85,7 +86,8 @@ class SeeAllIncomesCommandTest {
         testCommand.execute(financialList);
 
         String output = outputStream.toString();
-        String expectedOutput = "No recorded incomes found." + System.lineSeparator();
+        String expectedOutput = "No recorded incomes found." + System.lineSeparator() +
+            "--------------------------------------------" + System.lineSeparator();
 
         assertEquals(expectedOutput, output);
     }

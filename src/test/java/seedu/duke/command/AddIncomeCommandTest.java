@@ -3,6 +3,7 @@ package seedu.duke.command;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import seedu.duke.exception.FinanceBuddyException;
 import seedu.duke.financial.FinancialList;
 
 import java.io.ByteArrayOutputStream;
@@ -46,15 +47,15 @@ class AddIncomeCommandTest {
      * Verifies that the income is added to the financial list and that the correct output is printed.
      */
     @Test
-    void execute_addExpense_expectAddedToFinancialList() {
-        addIncomeCommand = new AddIncomeCommand(500.0, "allowance");
+    void execute_addExpense_expectAddedToFinancialList() throws FinanceBuddyException {
+        addIncomeCommand = new AddIncomeCommand(500.0, "allowance", "24/10/24");
         addIncomeCommand.execute(financialList);
 
         String output = outputStream.toString();
         String expectedOutput =
                 "--------------------------------------------" + System.lineSeparator() +
                 "Got it! I've added this income:" + System.lineSeparator() +
-                "[Income] - allowance $ 500.00" + System.lineSeparator() +
+                "[Income] - allowance $ 500.00 24/10/24" + System.lineSeparator() +
                 "--------------------------------------------" + System.lineSeparator();
 
         assertEquals(1, financialList.getEntryCount());  // Verify the entry count
@@ -67,22 +68,22 @@ class AddIncomeCommandTest {
      * Verifies that all incomes are added correctly and that the output is printed for each.
      */
     @Test
-    void execute_addMultipleExpenses_expectAllAddedToFinancialList() {
-        addIncomeCommand = new AddIncomeCommand(400, "Cost of Living payment");
+    void execute_addMultipleExpenses_expectAllAddedToFinancialList() throws FinanceBuddyException {
+        addIncomeCommand = new AddIncomeCommand(400, "Cost of Living payment", "01/09/24");
         addIncomeCommand.execute(financialList);
 
-        addIncomeCommand = new AddIncomeCommand(10.50, "friend return money");
+        addIncomeCommand = new AddIncomeCommand(10.50, "friend return money", "01/10/24");
         addIncomeCommand.execute(financialList);
 
         String output = outputStream.toString();
         String expectedOutput =
                 "--------------------------------------------" + System.lineSeparator() +
                 "Got it! I've added this income:" + System.lineSeparator() +
-                "[Income] - Cost of Living payment $ 400.00" + System.lineSeparator() +
+                "[Income] - Cost of Living payment $ 400.00 01/09/24" + System.lineSeparator() +
                 "--------------------------------------------" + System.lineSeparator() +
                 "--------------------------------------------" + System.lineSeparator() +
                 "Got it! I've added this income:" + System.lineSeparator() +
-                "[Income] - friend return money $ 10.50" + System.lineSeparator() +
+                "[Income] - friend return money $ 10.50 01/10/24" + System.lineSeparator() +
                 "--------------------------------------------" + System.lineSeparator();
 
         assertEquals(2, financialList.getEntryCount());  // Verify the entry count

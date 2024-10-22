@@ -15,12 +15,4 @@ public abstract class Command {
      */
     public abstract void execute(FinancialList list);
 
-    /**
-     * Determines if the command will terminate the application.
-     *
-     * @return false by default, as most commands do not terminate the application.
-     */
-    public boolean isExit() {
-        return false;
-    }
 }

@@ -31,9 +31,11 @@ public class SeeAllIncomesCommand extends Command {
         }
         if (incomeCount == 0) {
             System.out.println("No recorded incomes found.");
+            System.out.println("--------------------------------------------");
         } else {
             System.out.println("Here's a list of all recorded incomes:");
             System.out.print(incomeList);
+            System.out.println("--------------------------------------------");
         }
     }
 }

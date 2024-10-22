@@ -52,8 +52,9 @@ class HelpCommandTest {
         String expectedOutput = "--------------------------------------------\n" +
                 "List of commands:\n" +
                 "--------------------------------------------\n" +
-                "1. list\n " +
-                "   - Shows a list of all logged transactions\n" +
+                "1. list [income|expense]\n " +
+                "   - Shows a list of logged transactions\n" +
+                "    - Optional: Specify 'income' or 'expense' to filter the list\n" +
                 "2. expense DESCRIPTION /a AMOUNT\n " +
                 "   - Adds a new expense\n" +
                 "3. income DESCRIPTION /a AMOUNT\n " +

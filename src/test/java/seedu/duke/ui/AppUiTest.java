@@ -5,8 +5,11 @@ import org.junit.jupiter.api.Test;
 import seedu.duke.financial.Expense;
 import seedu.duke.financial.FinancialEntry;
 import seedu.duke.financial.FinancialList;
+import seedu.duke.financial.Income;
 
 import java.util.HashMap;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -19,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class AppUiTest {
 
     private AppUi appUi;
+    private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
     /**
      * Sets up the test environment by initializing the {@link AppUi} instance and its financial list.
@@ -27,6 +31,7 @@ public class AppUiTest {
     void setUp() {
         appUi = new AppUi();
         appUi.financialList = new FinancialList();
+        System.setOut(new PrintStream(outputStream));
     }
 
     /**
@@ -44,6 +49,31 @@ public class AppUiTest {
 
         // Validate that the result is true and no exceptions are thrown
         assertTrue(result);
+    }
+
+    @Test
+    void testMatchCommand_seeAllExpensesCommand() {
+        // add an expense to the financial list
+        appUi.financialList.addEntry(new Expense(100, "Lunch"));
+        // add an income to the financial list
+        appUi.financialList.addEntry(new Income(100, "Salary"));
+
+        // Prepare command arguments for the "seeAllExpenses" command
+        HashMap<String, String> commandArguments = new HashMap<>();
+        commandArguments.put("argument", "expense");
+
+        // Execute the command
+        appUi.matchCommand("list", commandArguments);
+
+        String output = outputStream.toString();
+
+        String expectedOutput = 
+                "Here's a list of all recorded expenses:" + System.lineSeparator() +
+                "1. [Expense] - Lunch $ 100.00" + System.lineSeparator() +
+                "--------------------------------------------" + System.lineSeparator();
+
+        // Validate that the expected output is equal to the actual output
+        assertEquals(expectedOutput, output);
     }
 
     /**
@@ -93,7 +123,7 @@ public class AppUiTest {
 
         // Prepare command arguments for the "edit" command
         HashMap<String, String> commandArguments = new HashMap<>();
-        commandArguments.put("argument", "0");
+        commandArguments.put("argument", "1");
         commandArguments.put("/a", "25.00");
         commandArguments.put("/des", "Edited Description");
 
