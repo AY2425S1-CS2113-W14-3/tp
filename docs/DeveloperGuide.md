@@ -7,18 +7,26 @@
 ## Design & implementation
 
 {Describe the design and implementation of the product. Use UML diagrams and short code snippets where applicable.}
+#### Listing Entries
 
+Overview
 
 ## Product scope
 ### Target user profile
+The list entries feature is facilitated by `SeeAllEntriesCommand`. 
 
 {Describe the target user profile}
+When the user inputs `list [income|expense] [/from START_DATE] [/to END_DATE]`, the following logic is carried out.
 
 ### Value proposition
+![hehe](UML/SeeEntriesOverview.png)
 
 {Describe the value proposition: what problem does it solve?}
+The interaction between `SeeAllEntriesCommand` 
+with the `FinancialList` is as follows:
 
 ## User Stories
+![hehe](UML/SeeAllEntriesDetails.png)
 
 |Version| As a ... | I want to ... | So that I can ...|
 |--------|----------|---------------|------------------|
