@@ -100,13 +100,24 @@ Exceptions are caught at the nearest instance that they occur.
 *Insert code snippet here.*
 
 ### Storage
+
+__Overview__
+
 The `Storage` class has been implemented to store the `FinancialList` into a file. 
-In that case, user can restore his/her progress even if they have terminate the program.
+Also it's responsible for restoring users' progress even if they have terminate the program using the saved file.
+
+__Implementation Details__
 
 The function `updateStorage` should be called whenever the `FinancialList` in an `AppUi` object. 
-It will overide the file with the up-to-date `FinancialList` that has been converted to string.
+It will overide the `data/FinancialList.txt` file with the up-to-date `FinancialList` that has been converted to string.
+Note: if the `data/FinancialList.txt` file doesn't exist, the program should generate one.
 
-*more guid coming up*
+The storage format of an `Expense` or `Income`, handled by `toStorageString()` method is different from the format generate by `toString()` method for CLS display.
+
+EX:
+For an Income with description "Lunch", amount "10.90" and date "2024/10/25":
+The `toString()` method will return as `[Income] - Lunch $ 10.90 (on 25/10/24)`
+And the `toStorageString()` method will return as `I | 10.90 | Lunch | 25/10/24`
 
 ## Product scope
 ### Target user profile:
@@ -145,11 +156,21 @@ faster than a typical mouse/GUI driven app
 
 ## Non-Functional Requirements
 
-{Give non-functional requirements}
+ - Technical Requirements: Any mainstream OS, i.e. Windows, macOS or Linux, with Java 11 installed. Instructions for downloading Java 11 can be found [here](https://www.oracle.com/sg/java/technologies/javase/jdk11-archive-downloads.html).
+ - Project Scope Constraints: The application should only be used for tracking. It is not meant to be involved in any form of monetary transaction.
+ - Project Scope Constraints: Data storage is only to be performed locally.
+ - Quality Requirements: The application should be able to be used effectively by a novice with little experience with CLIs.
+
 
 ## Glossary
 
-* *glossary item* - Definition
+* *FinancialEntry* - Refers to the base class for financial entries, containing common attributes such as description, amount, and date that define a financial transaction.
+* *description* - A brief text that provides context or details about the financial transaction, such as what the expense or income relates to.
+* *amount* - A numeric value representing the monetary value of the transaction. The amount must be a number greater than or equal to zero, with precision up to two decimal places.
+* *date* - Represents the date of the financial entry, recorded in the format dd/MM/YY, indicating the day, month, and year when the transaction occurred.
+* *Expense* - A subclass of FinancialEntry that represents a financial outflow or expenditure made by the user.
+* *Income* - A subclass of FinancialEntry that represents a financial inflow or income received by the user.
+* *FinancialList* - A class responsible for storing and managing all financial entries, including both expenses and incomes, allowing for the organization and manipulation of financial data.
 
 ## Instructions for manual testing
 
