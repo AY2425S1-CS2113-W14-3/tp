@@ -139,9 +139,6 @@ public class SeeAllEntriesCommand extends Command {
             }
         }
 
-        //Entry<Expense.Category, Double> highestExpenseCategory = list.getHighestExpenseCategory();
-        //Entry<Income.Category, Double> highestIncomeCategory = list.getHighestIncomeCategory();
-
         if (entryCount == 0) {
             System.out.println(this.getNoEntriesMessage());
             System.out.println(LINE_SEPARATOR);
@@ -149,8 +146,7 @@ public class SeeAllEntriesCommand extends Command {
         }
 
         System.out.println(this.getEntriesListedMessage());
-        System.out.print(entryList);
-        System.out.println();
+        System.out.println(entryList);
         String cashflowString = this.getCashflowString(cashflow);
         System.out.println(this.getCashflowHeader() + cashflowString);
         System.out.println();
