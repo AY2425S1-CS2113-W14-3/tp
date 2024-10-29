@@ -106,7 +106,8 @@ class DeleteCommandTest {
         String output = outputStream.toString();
         String expectedOutput = "--------------------------------------------" + System.lineSeparator() +
                 "Okay! The following entry has been deleted: " + System.lineSeparator() +
-                "[Expense] - movie ticket $ 20.00 (on " + date3.format(pattern) + ") [ENTERTAINMENT]" + System.lineSeparator() +
+                "[Expense] - movie ticket $ 20.00 (on " + date3.format(pattern) + ") [ENTERTAINMENT]" +
+                System.lineSeparator() +
                 "--------------------------------------------" + System.lineSeparator();
 
         // Verify the correct message is printed
@@ -145,15 +146,17 @@ class DeleteCommandTest {
     @Test
     void execute_deleteOnlyEntry_expectEntryRemoved() throws FinanceBuddyException {
         LocalDate date1 = LocalDate.of(2024, 4, 1);
-        financialList.addEntry(new Expense(50.00, "groceries", date1, Expense.Category.UNCATEGORIZED));  // Add one expense
-
-        deleteCommand = new DeleteCommand(1);  // Delete the only entry (1-based index)
+        // Add one expense
+        financialList.addEntry(new Expense(50.00, "groceries", date1, Expense.Category.UNCATEGORIZED));
+        // Delete the only entry (1-based index)
+        deleteCommand = new DeleteCommand(1);
         deleteCommand.execute(financialList);
 
         String output = outputStream.toString();
         String expectedOutput = "--------------------------------------------" + System.lineSeparator() +
                 "Okay! The following entry has been deleted: " + System.lineSeparator() +
-                "[Expense] - groceries $ 50.00 (on " + date1.format(pattern) + ") [UNCATEGORIZED]" + System.lineSeparator() +
+                "[Expense] - groceries $ 50.00 (on " + date1.format(pattern) + ") [UNCATEGORIZED]" +
+                System.lineSeparator() +
                 "--------------------------------------------" + System.lineSeparator();
 
         // Verify the correct message is printed

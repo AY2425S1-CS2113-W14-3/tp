@@ -142,11 +142,13 @@ class AddIncomeCommandTest {
         String expectedOutput =
                 "--------------------------------------------" + System.lineSeparator() +
                         "Got it! I've added this income:" + System.lineSeparator() +
-                        "[Income] - Cost of Living payment $ 400.00 (on "+ dateOne + ") [GIFT]" + System.lineSeparator() +
+                        "[Income] - Cost of Living payment $ 400.00 (on "+ dateOne + ") [GIFT]" +
+                        System.lineSeparator() +
                         "--------------------------------------------" + System.lineSeparator() +
                         "--------------------------------------------" + System.lineSeparator() +
                         "Got it! I've added this income:" + System.lineSeparator() +
-                        "[Income] - friend return money $ 10.50 (on " + dateTwo + ") [OTHER]" + System.lineSeparator() +
+                        "[Income] - friend return money $ 10.50 (on " + dateTwo + ") [OTHER]" +
+                        System.lineSeparator() +
                         "--------------------------------------------" + System.lineSeparator() +
                         "--------------------------------------------" + System.lineSeparator() +
                         "Got it! I've added this income:" + System.lineSeparator() +

@@ -22,7 +22,8 @@ public class AddExpenseCommand extends AddEntryCommand {
      * @param date The date of the expense.
      * @param category The category of the expense.
      */
-    public AddExpenseCommand(double amount, String description, String date, Expense.Category category) throws FinanceBuddyException {
+    public AddExpenseCommand(double amount, String description, String date, Expense.Category category)
+            throws FinanceBuddyException {
         super(amount, description, date);
         this.category = category;
         assert amount > 0 : "Amount should be positive";

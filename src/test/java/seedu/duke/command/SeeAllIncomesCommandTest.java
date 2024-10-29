@@ -57,7 +57,8 @@ class SeeAllIncomesCommandTest {
         financialList.addEntry(new Expense(3.50, "lunch", LocalDate.of(24,10,22), Expense.Category.FOOD));
         financialList.addEntry(new Income(3000.00, "salary", LocalDate.of(24,10,22), Income.Category.SALARY));
         financialList.addEntry(new Expense(4.50, "dinner", LocalDate.of(24,10,22), Expense.Category.FOOD));
-        financialList.addEntry(new Expense(20.00, "movie ticket", LocalDate.of(24,10,22), Expense.Category.ENTERTAINMENT));
+        financialList.addEntry(new Expense(20.00, "movie ticket", LocalDate.of(24,10,22),
+                Expense.Category.ENTERTAINMENT));
         financialList.addEntry(new Income(100.00, "allowance", LocalDate.of(24,10,22), Income.Category.GIFT));
         financialList.addEntry(new Income(15.00, "ang pow money", LocalDate.of(24,10,22), Income.Category.GIFT));
 
@@ -88,7 +89,8 @@ class SeeAllIncomesCommandTest {
         testCommand = new SeeAllIncomesCommand(null, null);
         financialList.addEntry(new Expense(3.50, "lunch", LocalDate.now(), Expense.Category.FOOD));
         financialList.addEntry(new Expense(4.50, "dinner", LocalDate.now(), Expense.Category.FOOD));
-        financialList.addEntry(new Expense(20.00, "movie ticket", LocalDate.now(), Expense.Category.ENTERTAINMENT));
+        financialList.addEntry(new Expense(20.00, "movie ticket", LocalDate.now(),
+                Expense.Category.ENTERTAINMENT));
 
         testCommand.execute(financialList);
 
@@ -109,7 +111,8 @@ class SeeAllIncomesCommandTest {
         financialList.addEntry(new Expense(3.50, "lunch", LocalDate.of(24, 10, 10), Expense.Category.FOOD));
         financialList.addEntry(new Income(3000.00, "salary", LocalDate.of(24, 10, 1), Income.Category.SALARY));
         financialList.addEntry(new Expense(4.50, "dinner", LocalDate.of(24, 10, 10), Expense.Category.FOOD));
-        financialList.addEntry(new Expense(20.00, "movie ticket", LocalDate.of(24, 10, 10), Expense.Category.ENTERTAINMENT));
+        financialList.addEntry(new Expense(20.00, "movie ticket", LocalDate.of(24, 10, 10),
+                Expense.Category.ENTERTAINMENT));
         financialList.addEntry(new Income(100.00, "allowance", LocalDate.of(24, 11, 2), Income.Category.GIFT));
         financialList.addEntry(new Income(15.00, "ang pow money", LocalDate.of(24, 9, 12), Income.Category.GIFT));
 
@@ -139,7 +142,8 @@ class SeeAllIncomesCommandTest {
         financialList.addEntry(new Expense(3.50, "lunch", LocalDate.of(24, 10, 10), Expense.Category.FOOD));
         financialList.addEntry(new Income(3000.00, "salary", LocalDate.of(24, 10, 1), Income.Category.SALARY));
         financialList.addEntry(new Expense(4.50, "dinner", LocalDate.of(24, 10, 10), Expense.Category.FOOD));
-        financialList.addEntry(new Expense(20.00, "movie ticket", LocalDate.of(24, 10, 10), Expense.Category.ENTERTAINMENT));
+        financialList.addEntry(new Expense(20.00, "movie ticket", LocalDate.of(24, 10, 10),
+                Expense.Category.ENTERTAINMENT));
         financialList.addEntry(new Income(100.00, "allowance", LocalDate.of(24, 11, 2), Income.Category.GIFT));
         financialList.addEntry(new Income(15.00, "ang pow money", LocalDate.of(24, 9, 12), Income.Category.GIFT));
 
@@ -169,7 +173,8 @@ class SeeAllIncomesCommandTest {
         financialList.addEntry(new Expense(3.50, "lunch", LocalDate.of(24, 10, 10), Expense.Category.FOOD));
         financialList.addEntry(new Income(3000.00, "salary", LocalDate.of(24, 10, 1), Income.Category.SALARY));
         financialList.addEntry(new Expense(4.50, "dinner", LocalDate.of(24, 10, 10), Expense.Category.FOOD));
-        financialList.addEntry(new Expense(20.00, "movie ticket", LocalDate.of(24, 10, 10), Expense.Category.ENTERTAINMENT));
+        financialList.addEntry(new Expense(20.00, "movie ticket", LocalDate.of(24, 10, 10),
+                Expense.Category.ENTERTAINMENT));
         financialList.addEntry(new Income(100.00, "allowance", LocalDate.of(24, 11, 2), Income.Category.GIFT));
         financialList.addEntry(new Income(15.00, "ang pow money", LocalDate.of(24, 9, 12), Income.Category.GIFT));
         testCommand.execute(financialList);
