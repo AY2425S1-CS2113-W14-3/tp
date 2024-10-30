@@ -20,6 +20,7 @@ import seedu.duke.ui.AppUi;
 
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.time.format.DateTimeFormatter;
 
 /**
  * The Logic class handles the core functionalities of FinanceBuddy, including
@@ -134,9 +135,17 @@ public class Logic {
         assert index > 0 : "Index of entry to edit must be greater than 0";
         assert index <= financialList.getEntryCount() : "Index of entry to edit must be within the list size";
 
+        Expense expense = null;
+        Income income = null;
+
         FinancialEntry entry = null;
         try {
             entry = financialList.getEntry(index - 1);
+            if (entry instanceof Expense) {
+                expense = (Expense) entry;
+            } else if (entry instanceof Income) {
+                income = (Income) entry;
+            }
         } catch (IndexOutOfBoundsException e) {
             throw new FinanceBuddyException("Invalid index. Please provide a valid integer.");
         }
@@ -151,10 +160,23 @@ public class Logic {
 
         String description = commandArguments.getOrDefault("/des", entry.getDescription());
 
-        String date = commandArguments.getOrDefault("/d", entry.getDate().toString());
 
-        EditEntryCommand editEntryCommand = new EditEntryCommand(index, amount, description, date);
-        editEntryCommand.execute(financialList);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
+        String date = commandArguments.getOrDefault("/d", entry.getDate().format(formatter));
+        
+        if (entry instanceof Expense) {
+            String category = commandArguments.getOrDefault("/c", expense.getCategory().toString());
+            Expense.Category categoryObj = parseExpenseCategory(category);
+            EditEntryCommand editEntryCommand = new EditEntryCommand(index, amount, description, date, categoryObj);
+            editEntryCommand.execute(financialList);
+    } else if (entry instanceof Income) {
+            String category = commandArguments.getOrDefault("/c", income.getCategory().toString());
+            Income.Category categoryObj = parseIncomeCategory(category);
+            EditEntryCommand editEntryCommand = new EditEntryCommand(index, amount, description, date, categoryObj);
+            editEntryCommand.execute(financialList);
+    }
+        
+        // editEntryCommand.execute(financialList);
     }
 
     /**

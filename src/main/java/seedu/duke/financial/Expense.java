@@ -44,7 +44,7 @@ public class Expense extends FinancialEntry {
         super(amount, description, date);
     }
 
-    public Category getCategory() {
+    public Expense.Category getCategory() {
         return category;
     }
 

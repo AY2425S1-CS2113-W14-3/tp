@@ -109,12 +109,19 @@ public class FinancialList {
      * @param date The new date to be set for the entry.
      * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= entries.size()).
      */
-    public void editEntry(int index, double amount, String description, LocalDate date) throws FinanceBuddyException{
+    public void editEntry(int index, double amount, String description, LocalDate date, Expense.Category expenseCategory, Income.Category incomeCategory) throws FinanceBuddyException{
 
         FinancialEntry entry = entries.get(index);
         entry.setAmount(amount);
         entry.setDescription(description);
         entry.setDate(date);
+        if (entry instanceof Expense) {
+            Expense expense = (Expense) entry;
+            expense.setCategory(expenseCategory);
+        } else if (entry instanceof Income) {
+            Income income = (Income) entry;
+            income.setCategory(incomeCategory);
+        }
     }
 
     /**

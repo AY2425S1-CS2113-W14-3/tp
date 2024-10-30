@@ -11,6 +11,11 @@ public abstract class FinancialEntry {
     protected String description;
     protected double amount;
     protected LocalDate date;
+    protected Category category;
+
+    public enum Category {
+        UNCATEGORIZED;
+    }
 
     /**
      * Constructs a FinancialEntry with the specified amount, description, and type.
