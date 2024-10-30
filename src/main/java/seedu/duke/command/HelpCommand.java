@@ -27,7 +27,7 @@ public class HelpCommand extends Command{
                 "   - Adds a new expense\n" +
                 "3. income DESCRIPTION /a AMOUNT\n " +
                 "   - Adds a new income\n" +
-                "4. edit INDEX [/des DESCRIPTION] [/a AMOUNT] [/d DATE]\n " +
+                "4. edit INDEX [/des DESCRIPTION] [/a AMOUNT] [/d DATE] [/c CATEGORY]\n " +
                 "   - Edits the transaction at the specified INDEX\n" +
                 "5. delete INDEX\n " +
                 "   - Deletes the transaction at the specified INDEX\n" +
