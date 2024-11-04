@@ -84,8 +84,8 @@ class AddIncomeCommandTest {
      */
     @Test
     void execute_addMultipleIncome_expectAllAddedToFinancialList() throws FinanceBuddyException {
-        String earlierDate = "21/12/24";
-        String laterDate = "23/12/24";
+        String earlierDate = "21/10/24";
+        String laterDate = "23/10/24";
         addIncomeCommand = new AddIncomeCommand(400, "Cost of Living payment", earlierDate,
                 Income.Category.GIFT);
         addIncomeCommand.execute(financialList);
@@ -109,12 +109,12 @@ class AddIncomeCommandTest {
         Income firstIncome = (Income) financialList.getEntry(0); //Assert first income index
         assertEquals(400.0, firstIncome.getAmount());
         assertEquals("Cost of Living payment", firstIncome.getDescription());
-        assertEquals(LocalDate.of(2024, 12, 21), firstIncome.getDate());
+        assertEquals(LocalDate.of(2024, 10, 21), firstIncome.getDate());
         assertEquals(Income.Category.GIFT, firstIncome.getCategory());
         Income secondIncome = (Income) financialList.getEntry(1); //Assert second income index
         assertEquals(10.50, secondIncome.getAmount());
         assertEquals("friend return money", secondIncome.getDescription());
-        assertEquals(LocalDate.of(2024,12,23), secondIncome.getDate());
+        assertEquals(LocalDate.of(2024,10,23), secondIncome.getDate());
         assertEquals(Income.Category.OTHER, secondIncome.getCategory());
 
         assertEquals(expectedOutput, output);  // Verify the printed output for both
@@ -128,9 +128,9 @@ class AddIncomeCommandTest {
      */
     @Test
     void execute_addMultipleIncomeNotInDateOrder_expectSortedByDate() throws FinanceBuddyException {
-        String dateOne = "21/12/24";
-        String dateTwo = "23/12/24";
-        String dateThree = "11/11/24";
+        String dateOne = "21/10/24";
+        String dateTwo = "23/10/24";
+        String dateThree = "11/09/24";
 
         addIncomeCommand = new AddIncomeCommand(400, "Cost of Living payment", dateOne,
                 Income.Category.GIFT);
@@ -164,17 +164,17 @@ class AddIncomeCommandTest {
         Income firstIncome = (Income) financialList.getEntry(0); //Assert first income index
         assertEquals(5.0, firstIncome.getAmount());
         assertEquals("rebate", firstIncome.getDescription());
-        assertEquals(LocalDate.of(2024, 11, 11), firstIncome.getDate());
+        assertEquals(LocalDate.of(2024, 9, 11), firstIncome.getDate());
         assertEquals(Income.Category.OTHER, firstIncome.getCategory());
         Income secondIncome = (Income) financialList.getEntry(1); //Assert first income index
         assertEquals(400.0, secondIncome.getAmount());
         assertEquals("Cost of Living payment", secondIncome.getDescription());
-        assertEquals(LocalDate.of(2024, 12, 21), secondIncome.getDate());
+        assertEquals(LocalDate.of(2024, 10, 21), secondIncome.getDate());
         assertEquals(Income.Category.GIFT, secondIncome.getCategory());
         Income thirdIncome = (Income) financialList.getEntry(2); //Assert second income index
         assertEquals(10.50, thirdIncome.getAmount());
         assertEquals("friend return money", thirdIncome.getDescription());
-        assertEquals(LocalDate.of(2024,12,23), thirdIncome.getDate());
+        assertEquals(LocalDate.of(2024,10,23), thirdIncome.getDate());
         assertEquals(Income.Category.OTHER, thirdIncome.getCategory());
 
         assertEquals(expectedOutput, output);  // Verify the printed output for both
