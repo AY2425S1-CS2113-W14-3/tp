@@ -1,6 +1,7 @@
 package seedu.duke.storage;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -8,6 +9,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import seedu.duke.command.AddExpenseCommand;
+import seedu.duke.command.AddIncomeCommand;
 import seedu.duke.exception.FinanceBuddyException;
 import seedu.duke.financial.Expense;
 import seedu.duke.financial.FinancialList;
@@ -110,18 +113,16 @@ public class Storage {
      *               tokens[3] is the date in ISO-8601 format (yyyy-MM-dd).
      * @return An Expense object created from the parsed data.
      * @throws NumberFormatException if the amount cannot be parsed as a double.
-     * @throws DateTimeParseException if the date cannot be parsed as a LocalDate.
      */
-    public Expense parseExpense(String[] tokens) throws FinanceBuddyException {
+    public AddExpenseCommand parseExpense(String[] tokens) throws FinanceBuddyException {
         try {
             double amount = Double.parseDouble(tokens[1]);
             String description = tokens[2];
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
-            LocalDate date = LocalDate.parse(tokens[3], formatter);
+            String dateString = tokens[3];
             Expense.Category category = Expense.Category.valueOf(tokens[4].toUpperCase());
             assert amount >= 0 : "Amount should be non-negative";
             assert description != null && !description.isEmpty() : "Description should not be empty";
-            return new Expense(amount, description, date, category);
+            return new AddExpenseCommand(amount, description, dateString, category);
         } catch (NumberFormatException e) {
             logger.log(Level.WARNING, "Error parsing amount in expense: " + tokens[1]);
             throw e;
@@ -140,18 +141,16 @@ public class Storage {
      *               tokens[3] is the date as a LocalDate in ISO-8601 format.
      * @return An Income object constructed from the provided tokens.
      * @throws NumberFormatException if tokens[1] cannot be parsed as a double.
-     * @throws DateTimeParseException if tokens[3] cannot be parsed as a LocalDate.
      */
-    public Income parseIncome(String[] tokens) throws FinanceBuddyException {
+    public AddIncomeCommand parseIncome(String[] tokens) throws FinanceBuddyException {
         try{
             double amount = Double.parseDouble(tokens[1]);
             String description = tokens[2];
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
-            LocalDate date = LocalDate.parse(tokens[3], formatter);
+            String dateString = tokens[3];
             Income.Category category = Income.Category.valueOf(tokens[4].toUpperCase());
             assert amount >= 0 : "Amount should be non-negative";
             assert description != null && !description.isEmpty() : "Description should not be empty";
-            return new Income(amount, description, date, category);
+            return new AddIncomeCommand(amount, description, dateString, category);
         }catch (NumberFormatException e){
             logger.log(Level.WARNING, "Error parsing amount in income: " + tokens[1]);
             throw e;
@@ -170,31 +169,41 @@ public class Storage {
      */
     public FinancialList loadFromFile(){
         FinancialList theList = new FinancialList();
+
+        File file = getStorageFile();
+        java.util.Scanner sc = null;
+
         try {
-            File file = getStorageFile();
-            java.util.Scanner sc = new java.util.Scanner(file);
-            Integer loadedExpenseCount = 0;
-            Integer loadedIncomeCount = 0;
-            while (sc.hasNextLine()) {
-                String line = sc.nextLine();
-                // parse the line and add the task to the list
+            sc = new java.util.Scanner(file);
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found");
+        }
+
+        int loadedExpenseCount = 0;
+        int loadedIncomeCount = 0;
+        while (sc.hasNextLine()) {
+            String line = sc.nextLine();
+            // parse the line and add the task to the list
+            try {
                 if (line.charAt(0) == 'E') {
                     String[] tokens = line.split(" \\| ");
-                    theList.addEntry(parseExpense(tokens));
+                    AddExpenseCommand addExpenseCommand = parseExpense(tokens);
+                    addExpenseCommand.execute(theList);
                     loadedExpenseCount++;
                 } else if (line.charAt(0) == 'I') {
                     String[] tokens = line.split(" \\| ");
-                    theList.addEntry(parseIncome(tokens));
+                    AddIncomeCommand addIncomeCommand = parseIncome(tokens);
+                    addIncomeCommand.execute(theList);
                     loadedIncomeCount++;
                 }
+            } catch (FinanceBuddyException e) {
+                System.out.println("Error parsing entry: " + line);
             }
-            sc.close();
-            logger.log(Level.INFO, "Loaded " + loadedExpenseCount + " expenses and " + 
-                    loadedIncomeCount + " incomes from file.");
-            return theList;
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-        return null;
+
+        sc.close();
+        logger.log(Level.INFO, "Loaded " + loadedExpenseCount + " expenses and " +
+                loadedIncomeCount + " incomes from file.");
+        return theList;
     }
 }
