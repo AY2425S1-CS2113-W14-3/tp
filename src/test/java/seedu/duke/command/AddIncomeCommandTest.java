@@ -4,7 +4,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import seedu.duke.exception.FinanceBuddyException;
-import seedu.duke.financial.Expense;
 import seedu.duke.financial.FinancialList;
 import seedu.duke.financial.Income;
 
@@ -242,7 +241,7 @@ class AddIncomeCommandTest {
      * Verifies that a FinanceBuddyException is thrown, and no entries are added to financiallist.
      */
     @Test
-    void execute_AddIncomeWithEmptyDescription_expectErrorMessage() {
+    void execute_addIncomeWithEmptyDescription_expectErrorMessage() {
         Exception exception = assertThrows(FinanceBuddyException.class, () -> {
             addIncomeCommand = new AddIncomeCommand(1, "", "01/11/24", Income.Category.OTHER);
             addIncomeCommand.execute(financialList);
@@ -257,7 +256,7 @@ class AddIncomeCommandTest {
      * Verifies that a FinanceBuddyException is thrown, and no entries are added to financiallist.
      */
     @Test
-    void execute_AddIncomeWithBlankDescription_expectErrorMessage() {
+    void execute_addIncomeWithBlankDescription_expectErrorMessage() {
         Exception exception = assertThrows(FinanceBuddyException.class, () -> {
             addIncomeCommand = new AddIncomeCommand(1, " ", "01/11/24", Income.Category.OTHER);
             addIncomeCommand.execute(financialList);
