@@ -249,5 +249,23 @@ class AddExpenseCommandTest {
         assertEquals(0, financialList.getEntryCount());
     }
 
+    /**
+     * Test the execute method of AddExpenseCommand with a date after the system date.
+     * Verifies that a FinanceBuddyException is thrown, and no entries are added to financiallist.
+     */
+    @Test
+    void execute_addExpenseWithDateAfterCurrentDate_expectErrorMessage() {
+        LocalDate laterDate = LocalDate.now().plusDays(1);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
+        String laterDateAsString = laterDate.format(formatter);
 
+        Exception exception = assertThrows(FinanceBuddyException.class, () -> {
+            addExpenseCommand = new AddExpenseCommand(1, "random", laterDateAsString, Expense.Category.OTHER);
+            addExpenseCommand.execute(financialList);
+        });
+
+        // Verify the error message
+        assertEquals("Expense date cannot be after current date.", exception.getMessage());
+        assertEquals(0, financialList.getEntryCount());
+    }
 }

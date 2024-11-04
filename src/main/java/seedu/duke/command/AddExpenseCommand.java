@@ -6,6 +6,7 @@ import seedu.duke.exception.FinanceBuddyException;
 import seedu.duke.log.Log;
 import seedu.duke.log.LogLevels;
 
+import java.time.LocalDate;
 import java.util.Map;
 
 /**
@@ -49,6 +50,10 @@ public class AddExpenseCommand extends AddEntryCommand {
             throw new FinanceBuddyException("Financial list cannot be null");
         }
 
+        if (date.isAfter(LocalDate.now())){
+            throw new FinanceBuddyException("Expense date cannot be after current date.");
+        }
+
         int preEntryCount = list.getEntryCount();
         Expense expense = new Expense(amount, description, date, category);
         list.addEntry(expense);
@@ -60,6 +65,5 @@ public class AddExpenseCommand extends AddEntryCommand {
         System.out.println(expense);
         System.out.println("--------------------------------------------");
         logger.log(LogLevels.INFO, "Expense added to list: " + expense);
-
     }
 }

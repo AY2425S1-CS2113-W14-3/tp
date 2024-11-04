@@ -10,6 +10,7 @@ import seedu.duke.financial.Income;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -215,4 +216,23 @@ class AddIncomeCommandTest {
         assertEquals(0, financialList.getEntryCount());
     }
 
+    /**
+     * Test the execute method of AddIncomeCommand with a date after the system date.
+     * Verifies that a FinanceBuddyException is thrown, and no entries are added to financiallist.
+     */
+    @Test
+    void execute_addIncomeWithDateAfterCurrentDate_expectErrorMessage() {
+        LocalDate laterDate = LocalDate.now().plusDays(1);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
+        String laterDateAsString = laterDate.format(formatter);
+
+        Exception exception = assertThrows(FinanceBuddyException.class, () -> {
+            addIncomeCommand = new AddIncomeCommand(1, "random", laterDateAsString, Income.Category.OTHER);
+            addIncomeCommand.execute(financialList);
+        });
+
+        // Verify the error message
+        assertEquals("Income date cannot be after current date.", exception.getMessage());
+        assertEquals(0, financialList.getEntryCount());
+    }
 }

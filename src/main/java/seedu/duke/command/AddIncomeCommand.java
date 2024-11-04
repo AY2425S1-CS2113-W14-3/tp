@@ -6,6 +6,7 @@ import seedu.duke.exception.FinanceBuddyException;
 import seedu.duke.log.Log;
 import seedu.duke.log.LogLevels;
 
+import java.time.LocalDate;
 import java.util.Map;
 
 /**
@@ -44,6 +45,15 @@ public class AddIncomeCommand extends AddEntryCommand {
      */
     @Override
     public void execute(FinancialList list) throws FinanceBuddyException {
+        if (list == null) {
+            logger.log(LogLevels.SEVERE, "Financial list is null");
+            throw new FinanceBuddyException("Financial list cannot be null");
+        }
+
+        if (date.isAfter(LocalDate.now())){
+            throw new FinanceBuddyException("Income date cannot be after current date.");
+        }
+
         Income income = new Income(amount, description, date, category);
         int preEntryCount = list.getEntryCount();
         list.addEntry(income);
