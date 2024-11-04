@@ -33,7 +33,6 @@ public class AddIncomeCommand extends AddEntryCommand {
     ) throws FinanceBuddyException{
         super(amount, description, date);
         this.category = category;
-
     }
 
     /**
@@ -48,6 +47,10 @@ public class AddIncomeCommand extends AddEntryCommand {
         if (list == null) {
             logger.log(LogLevels.SEVERE, "Financial list is null");
             throw new FinanceBuddyException("Financial list cannot be null");
+        }
+
+        if (description.isBlank()){
+            throw new FinanceBuddyException("Description cannot be blank");
         }
 
         if (date.isAfter(LocalDate.now())){

@@ -35,7 +35,6 @@ public class AddExpenseCommand extends AddEntryCommand {
         super(amount, description, date);
         this.category = category;
         assert amount > 0 : "Amount should be positive";
-        assert description != null && !description.isEmpty() : "Description should not be null or empty";
     }
 
     /**
@@ -50,10 +49,15 @@ public class AddExpenseCommand extends AddEntryCommand {
             throw new FinanceBuddyException("Financial list cannot be null");
         }
 
+        if (description.isBlank()){
+            throw new FinanceBuddyException("Description cannot be blank");
+        }
+
         if (date.isAfter(LocalDate.now())){
             throw new FinanceBuddyException("Expense date cannot be after current date.");
         }
 
+        assert description != null && !description.isEmpty() : "Description should not be null or empty";
         int preEntryCount = list.getEntryCount();
         Expense expense = new Expense(amount, description, date, category);
         list.addEntry(expense);
