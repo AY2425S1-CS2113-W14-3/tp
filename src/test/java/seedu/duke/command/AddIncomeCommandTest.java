@@ -4,6 +4,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import seedu.duke.exception.FinanceBuddyException;
+import seedu.duke.financial.Expense;
 import seedu.duke.financial.FinancialList;
 import seedu.duke.financial.Income;
 
@@ -233,6 +234,36 @@ class AddIncomeCommandTest {
 
         // Verify the error message
         assertEquals("Income date cannot be after current date.", exception.getMessage());
+        assertEquals(0, financialList.getEntryCount());
+    }
+
+    /**
+     * Test the execute method of AddIncomeCommand with an empty description.
+     * Verifies that a FinanceBuddyException is thrown, and no entries are added to financiallist.
+     */
+    @Test
+    void execute_AddIncomeWithEmptyDescription_expectErrorMessage() {
+        Exception exception = assertThrows(FinanceBuddyException.class, () -> {
+            addIncomeCommand = new AddIncomeCommand(1, "", "01/11/24", Income.Category.OTHER);
+            addIncomeCommand.execute(financialList);
+        });
+
+        assertEquals("Description cannot be blank", exception.getMessage());
+        assertEquals(0, financialList.getEntryCount());
+    }
+
+    /**
+     * Test the execute method of AddIncomeCommand with a blank description.
+     * Verifies that a FinanceBuddyException is thrown, and no entries are added to financiallist.
+     */
+    @Test
+    void execute_AddIncomeWithBlankDescription_expectErrorMessage() {
+        Exception exception = assertThrows(FinanceBuddyException.class, () -> {
+            addIncomeCommand = new AddIncomeCommand(1, " ", "01/11/24", Income.Category.OTHER);
+            addIncomeCommand.execute(financialList);
+        });
+
+        assertEquals("Description cannot be blank", exception.getMessage());
         assertEquals(0, financialList.getEntryCount());
     }
 }

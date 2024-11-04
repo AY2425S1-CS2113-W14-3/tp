@@ -268,4 +268,34 @@ class AddExpenseCommandTest {
         assertEquals("Expense date cannot be after current date.", exception.getMessage());
         assertEquals(0, financialList.getEntryCount());
     }
+
+    /**
+     * Test the execute method of AddExpenseCommand with an empty description.
+     * Verifies that a FinanceBuddyException is thrown, and no entries are added to financiallist.
+     */
+    @Test
+    void execute_addExpenseWithEmptyDescription_expectErrorMessage() {
+        Exception exception = assertThrows(FinanceBuddyException.class, () -> {
+            addExpenseCommand = new AddExpenseCommand(1, "", "01/11/24", Expense.Category.OTHER);
+            addExpenseCommand.execute(financialList);
+        });
+
+        assertEquals("Description cannot be blank", exception.getMessage());
+        assertEquals(0, financialList.getEntryCount());
+    }
+
+    /**
+     * Test the execute method of AddExpenseCommand with a blank description.
+     * Verifies that a FinanceBuddyException is thrown, and no entries are added to financiallist.
+     */
+    @Test
+    void execute_addExpenseWithBlankDescription_expectErrorMessage() {
+        Exception exception = assertThrows(FinanceBuddyException.class, () -> {
+            addExpenseCommand = new AddExpenseCommand(1, " ", "01/11/24", Expense.Category.OTHER);
+            addExpenseCommand.execute(financialList);
+        });
+
+        assertEquals("Description cannot be blank", exception.getMessage());
+        assertEquals(0, financialList.getEntryCount());
+    }
 }
