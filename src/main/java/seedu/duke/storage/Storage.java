@@ -3,8 +3,6 @@ package seedu.duke.storage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
